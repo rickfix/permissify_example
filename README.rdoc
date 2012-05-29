@@ -1,0 +1,5 @@
+= Permissify example application
+
+A rails 3 application which demonstrates different aspects of the permissify gem.
+
+
