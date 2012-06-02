@@ -1,23 +1,30 @@
-<div id="loginForm">
+<div class='login'>
+  <div id="pageContainer">
+    <div id='login-box'>
+      <br/>
+      <div id="loginForm">
 
-  <%= form_for @user_session, :url => user_session_path do |f| %>
-  
-    <% unless flash[:error].blank? %>
-      <h2><%= flash[:error] %></h2>
-    <% end %>
-  
-    <div class="inputCont">
-      <%= f.label :login %>
-      <%= f.text_field :login %>
-    </div>
-  
-    <div class="inputCont">
-      <%= f.label :password %>
-      <%= f.password_field :password %>
-    </div>
-    <div class="buttonContainer">
-      <%= f.submit "login" %>
-    </div>
-  <% end %>
+        <%= form_for @user_session, :url => user_session_path do |f| %>
 
+          <% unless flash[:error].blank? %>
+            <h2><%= flash[:error] %></h2>
+          <% end %>
+
+          <div class="inputCont">
+            <%= f.label :login, 'Username' %>
+            <%= f.text_field :login %>
+          </div>
+
+          <div class="inputCont">
+            <%= f.label :password %>
+            <%= f.password_field :password %>
+          </div>
+          <div class="buttonContainer">
+            <%= f.submit "login" %>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
 </div>

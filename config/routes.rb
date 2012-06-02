@@ -50,6 +50,7 @@ Permissify::Application.routes.draw do
   # just remember to delete public/index.html.
   # root :to => 'welcome#index'
   resource :user_session
+  resources :roles
   match 'login' => "user_sessions#new",      :as => :login
   root :to => 'login#new'
   match 'logout' => "user_sessions#destroy", :as => :logout

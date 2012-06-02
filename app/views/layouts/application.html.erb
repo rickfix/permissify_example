@@ -1,14 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Permissify</title>
+  <title>Permissify Example</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
+  <div id='welcomeBar'>
+  </div>
+  <div id="pageContainer">
+    
+    <ul id="userStatus">
+      <li> Welcome,&nbsp; </li>
+      <li>
+        <a id="my_profile" onclick="$('#my_profile').colorbox({ href: '/my_profile/1/edit.js', opacity: 0.4, title: '<h2>My Profile</h2>', overlayClose: false, transition: 'elastic', height: '600px', width: '600px', inner_width: '530px', onLoad: function() { $('#cboxClose').unbind(); $('#cboxClose').click(function() { $.colorbox.close(); }); } }); return false;" href="#">
+          <%= current_user.login %>
+        </a>
+      </li>
+      <li>|</li>
+      
+      <li class="logout">
+        <a href="/logout">
+          logout
+        </a>
+      </li>
+    </ul>
+    
+    <div style="background-color:#888888; padding:2px;">
+      <ul id="mainNav">
+        <%- Role::DOMAIN_TYPES.reverse.each do |tab_name| %>
+          <%- if allowed_to?(tab_name.downcase, :tabs) %>
+            <li <%= "class='active'" if @active_tab == tab_name.downcase %> >
+              <a class="fncyTab" href="/dashboard" TODO>
+                <%= tab_name %>
+              </a>
+            </li>
+          <%- end %>
+        <%- end %>
+      </ul>
+    
+      <div style="background-color:white; padding:12px;">
+        <div id='sidebar'>
+          <ul id="menu_secondary">
+            <li class="listStart">
+              <h4>Settings</h4>
+            </li>
+            <%- Ability.all.select{|a| a[:section] == @active_section}.collect{|a| a[:category]}.uniq.sort.each do |nav_item| %>
+              <%- nav_item_token = nav_item.downcase.gsub('-','_').gsub(':','').gsub('  ',' ').gsub(' ','_') %>
+              <%- if allowed_to?(:view, nav_item_token ) %>
+                <li <%= "class='active_subnav'" if @active_nav == nav_item %> >
+                  &nbsp;&nbsp;<a href="/<%= nav_item_token %>"><%= nav_item %></a>
+                </li>
+              <%- end %>
+            <%- end %>
+          </ul>
+          <br/>
+        </div>
+        <div id="mainContent">
+          <div style="border:2px solid grey; padding:5px;">
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>

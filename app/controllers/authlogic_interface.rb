@@ -1,6 +1,5 @@
 module AuthlogicInterface
   def current_user_session
-    logger.debug "ApplicationController::current_user_session"
     return @current_user_session if defined?(@current_user_session)
     @current_user_session = UserSession.find
   end
@@ -11,13 +10,11 @@ module AuthlogicInterface
     # return nil unless @current_user
     # @current_user = nil if @current_user.disabled? # lock down 'disabled' at the request level 
     # @current_user
-    logger.debug "ApplicationController::current_user"
     return @current_user if defined?(@current_user)
     @current_user = current_user_session && current_user_session.user
   end
   
   def require_user
-    logger.debug "ApplicationController::require_user"
     unless current_user
       flash[:notice] = "You must be logged in to access this page"          
       redirect_to new_user_session_url
@@ -26,7 +23,6 @@ module AuthlogicInterface
   end
 
   def require_no_user
-    logger.debug "ApplicationController::require_no_user"
     if current_user
       # store_location
     	flash[:notice] = "You have been logged out"

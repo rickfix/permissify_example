@@ -9,7 +9,7 @@ module Permissions::Model
     self.permissions ||= self.from.nil? ? {} : establish_from_permissions_model.permissions
   end
   
-  def allows?(ability_key) ; logger.debug(ability_key.inspect.to_s); 
+  def allows?(ability_key)
     allowed = self.permissions[ability_key];
     allowed && allowed['0']; 
     end

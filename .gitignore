@@ -1,0 +1,12 @@
+log/*
+tmp/*
+test/*
+Gemfile.lock
+app/controllers/permissified_controller.rb
+app/models/ability.rb
+app/models/role.rb
+app/models/product.rb
+app/models/permissified_branch.rb
+app/models/permissified_merchant.rb
+app/models/system_fixtures
+
