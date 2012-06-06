@@ -11,7 +11,7 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
       flash[:notice] = "Login successful!"
-      redirect_to '/dashboard'
+      redirect_to send("#{@user_session.user.primary_domain_type.downcase}_dashboard_path")
     else
       logger.debug("*** errors: #{@user_session.errors.full_messages.join(',')}")
       flash[:error] = "nuh uh : try agin..."

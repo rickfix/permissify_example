@@ -1,0 +1,25 @@
+<br/>
+<%= format_notification( flash[:notice], "success" )%>  
+<table cellspacing='0' cellpadding='5' width='100%' id='users'>
+  <tr>
+    <th width='120' align='left'>Login</th>
+    <th align='left'>Roles</th>
+    <th align='left'><%= link_to("new user", new_domain_users_path, :class => 'fncyBtn') if allowed_to?(:create, @domain_category) %><br/>&nbsp;</th>
+  </tr>
+
+  <%- @users.each do |user| %>
+    <%- if user != current_user %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <%- if current_user_can_manage?(user) %>
+          <td><%= link_to(truncate(user.login, :length => 16), edit_domain_user_path(user)) %></td>
+          <td><%= user.roles.collect(&:name).uniq.sort.join(', ') %></td>
+          <td><%= link_to("delete", domain_user_path(user), :method => :delete, :confirm => "Are you sure?") if current_user != user && allowed_to?(:delete, @domain_category) %></td>
+        <%- else %>
+          <td><%= truncate(user.login, :length => 16) %></td>
+          <td><%= user.roles.collect(&:name).join(', ') %></td>
+          <td></td>
+        <%- end %>
+      </tr>
+    <%- end %>
+  <%- end %>
+</table>

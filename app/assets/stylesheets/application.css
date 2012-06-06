@@ -710,3 +710,5 @@ sub{ vertical-align: sub }
 sup{ vertical-align: super }
 i, em{ font-style: italic }
 blockquote{ margin-left: 40px; margin-right: 40px }
+
+.deletedRole { background-color:red; }

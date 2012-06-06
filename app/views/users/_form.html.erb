@@ -1,0 +1,31 @@
+<br/>
+<%= form_for @user, :url => path, :html => {:method => method} do |u| %>
+  <!-- %= u.error_messages % -->
+
+  <fieldset id="profitStreamsUsers">
+
+    <div class="inputCont">
+      <%= u.label :login, "Login" %>
+      <%= u.text_field :login  %>
+    </div>
+
+    <% unless @current_user == @user %>
+
+      <div class="inputCont">
+        <%= u.label :role_ids, "Roles" %>
+    		<%- if domain_roles_that_current_user_can_manage.empty? %>
+    			<div class="fieldErrorMsg">There are no '<%= @domain_type %>' roles, so this user will have no permissions.</div>
+    		<%- else %>
+          <%= u.collection_select(:role_ids, domain_roles_that_current_user_can_manage, :id, :name, {}, :size => [domain_roles_that_current_user_can_manage.size+2, 3].min, :multiple => 'multiple') %>
+    		<%- end %>
+      </div>
+
+    <% end %>
+  </fieldset>
+  <div class="buttonContainer submit-cancel">
+    <%- if allowed_to?(@permissions_action, @domain_category) %>
+      <%= u.submit 'save' %> or 
+    <%- end %>
+    <%= link_to "cancel", domain_users_path %>
+  </div>
+<% end %>

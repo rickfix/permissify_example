@@ -14,7 +14,7 @@
     <ul id="userStatus">
       <li> Welcome,&nbsp; </li>
       <li>
-        <a id="my_profile" onclick="$('#my_profile').colorbox({ href: '/my_profile/1/edit.js', opacity: 0.4, title: '<h2>My Profile</h2>', overlayClose: false, transition: 'elastic', height: '600px', width: '600px', inner_width: '530px', onLoad: function() { $('#cboxClose').unbind(); $('#cboxClose').click(function() { $.colorbox.close(); }); } }); return false;" href="#">
+        <a id="my_profile" href="<%= current_user_edit_path %>">
           <%= current_user.login %>
         </a>
       </li>
@@ -32,7 +32,7 @@
         <%- Role::DOMAIN_TYPES.reverse.each do |tab_name| %>
           <%- if allowed_to?(tab_name.downcase, :tabs) %>
             <li <%= "class='active'" if @active_tab == tab_name.downcase %> >
-              <a class="fncyTab" href="/dashboard" TODO>
+              <a class="fncyTab" href="<%= send("#{tab_name.downcase}_dashboard_path") %>">
                 <%= tab_name %>
               </a>
             </li>

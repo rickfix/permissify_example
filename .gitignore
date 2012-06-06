@@ -9,4 +9,8 @@ app/models/product.rb
 app/models/permissified_branch.rb
 app/models/permissified_merchant.rb
 app/models/system_fixtures
+app/helpers/permissions_helper.rb
+app/helpers/roles_helper.rb
+app/views/permissions
+app/views/roles
 

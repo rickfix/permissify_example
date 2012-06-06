@@ -15,4 +15,4 @@ end
 gem 'jquery-rails'
 
 gem 'authlogic', '>= 3.1.0'
-gem 'permissify', '>= 0.0.7'
+gem 'permissify', '>= 0.0.11'
