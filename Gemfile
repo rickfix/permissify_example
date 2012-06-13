@@ -15,4 +15,6 @@ end
 gem 'jquery-rails'
 
 gem 'authlogic', '>= 3.1.0'
-gem 'permissify', '>= 0.0.11'
+gem 'permissify', '>= 0.0.16'
+
+gem "rspec-rails", "~> 2.0", :group => [:test, :development]

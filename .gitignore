@@ -3,6 +3,7 @@ tmp/*
 test/*
 Gemfile.lock
 app/controllers/permissified_controller.rb
+app/controllers/permissions_controller.rb
 app/models/ability.rb
 app/models/role.rb
 app/models/product.rb
@@ -13,4 +14,5 @@ app/helpers/permissions_helper.rb
 app/helpers/roles_helper.rb
 app/views/permissions
 app/views/roles
+db/migrate/*_create_roles_tables.rb
 

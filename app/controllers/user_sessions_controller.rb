@@ -10,8 +10,12 @@ class UserSessionsController < ApplicationController
   def create
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
-      flash[:notice] = "Login successful!"
-      redirect_to send("#{@user_session.user.primary_domain_type.downcase}_dashboard_path")
+      domain_type = @user_session.user.primary_domain_type
+      if domain_type
+        redirect_to send("#{@user_session.user.primary_domain_type.downcase.pluralize}_path")
+      else
+        redirect_to '/logout'
+      end
     else
       logger.debug("*** errors: #{@user_session.errors.full_messages.join(',')}")
       flash[:error] = "nuh uh : try agin..."

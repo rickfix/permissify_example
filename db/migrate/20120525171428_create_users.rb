@@ -8,6 +8,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string   :persistence_token, :limit => 40
       t.string   :perishable_token, :default => "", :null => false
       t.string   :email, :limit => 255
+      t.references :entity, :polymorphic => true    
       t.timestamps
     end
     

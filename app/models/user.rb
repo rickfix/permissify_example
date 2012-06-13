@@ -9,9 +9,12 @@ class User < ActiveRecord::Base
   end
   
   # is_paranoid
+
+  belongs_to :entity, :polymorphic => true
   
   include Permissify::Roles
   PERMISSIFIED_ASSOCIATION = :roles
+  PERMISSIFIED_ABILITY_APPLICABILITY = 'Role'
   has_and_belongs_to_many :roles, :order => "name ASC"
   # for brand,bus/merch : want this to be :permissible_products : added shell of product/interface for brand, merchant
   # dealer, corp  : PERMISSIFIED_ASSOCIATION = :products

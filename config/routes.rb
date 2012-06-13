@@ -52,16 +52,21 @@ Permissify::Application.routes.draw do
   resource :user_session
   resources :roles
   resources :admin_users
+  resources :dealers
   resources :dealer_users
-  resources :corporate_users
+  resources :corporations
+  resources :corporation_users
+  resources :brands
   resources :brand_users
+  resources :merchants
   resources :merchant_users
   match 'login' => "user_sessions#new",      :as => :login
   root :to => 'login#new'
   match 'logout' => "user_sessions#destroy", :as => :logout
-  match 'admin_dashboard' => 'admin_dashboard#index'
-  match 'dealer_dashboard' => 'dealer_dashboard#index'
-  match 'corporate_dashboard' => 'corporate_dashboard#index'
-  match 'brand_dashboard' => 'brand_dashboard#index'
-  match 'merchant_dashboard' => 'merchant_dashboard#index'
+  # match 'admin_dashboard' => 'admin_dashboard#index'
+  # match 'dealer_dashboard' => 'dealer_dashboard#index'
+  # match 'corporation_dashboard' => 'corporation_dashboard#index'
+  # match 'brand_dashboard' => 'brand_dashboard#index'
+  # match 'merchant_dashboard' => 'merchant_dashboard#index'
+  match 'admins' => 'admin_users#index'
 end

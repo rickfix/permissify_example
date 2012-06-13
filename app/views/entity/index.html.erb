@@ -1,0 +1,8 @@
+<br/>
+<table width='100%'>
+  <tbody id='entities'>
+    <%= render(:partial => 'row', :collection => @entity_list) if @entity_list %>
+  </tbody>
+  <%= render(:partial => 'add_form') if allowed_to?(:create, :dealers) %>
+</table>
+<br/>

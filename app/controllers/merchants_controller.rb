@@ -1,6 +1,7 @@
-class MerchantDashboardController < DashboardController  
+class MerchantsController < EntityController  
   def set_nav
     @active_tab = 'merchant'
     @active_section = 'Merchant Admin'
+    @list_association = nil
   end
 end
