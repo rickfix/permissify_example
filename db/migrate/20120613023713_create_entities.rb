@@ -1,6 +1,11 @@
 class CreateEntities < ActiveRecord::Migration
   
   def up
+    create_table :admins, :force => true do |t|
+      t.string   :name
+      t.timestamps
+    end
+
     create_table :dealers, :force => true do |t|
       t.string   :name
       t.timestamps
@@ -34,6 +39,7 @@ class CreateEntities < ActiveRecord::Migration
     drop_table :brands
     drop_table :corporations
     drop_table :dealers
+    drop_table :admins
   end
   
 end

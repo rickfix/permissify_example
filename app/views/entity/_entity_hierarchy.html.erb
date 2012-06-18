@@ -1,0 +1,45 @@
+<!-- %- return if entity_hierarchy.nil? % -->
+<%- passed_entity = false; %>
+<%- (hierarchy_tags = %w(dealer corporation brand merchant)).each do |ancestor_tag| %>
+
+  <%- if passed_entity == true %>
+  
+    <%- descendants = entity_hierarchy.send(ancestor_tag.pluralize) %>
+    <%- if (count = descendants.size) == 0 %>
+      no <%= ancestor_tag.pluralize %>
+    <%- else %>
+    
+      <%- if count == 1 %>
+
+        <%= link_to(truncate(descendants.first.name, :length => 15), "/#{ancestor_tag.pluralize}/#{descendants.first.id}") %>
+        
+      <%- else %>
+
+        <select>
+          <option value=''>
+            <%= (count = descendants.size) == 1 ? "1 #{ancestor_tag}" : "#{count} #{ancestor_tag.pluralize}" %>
+          </option>
+          <%- descendants.each do |descendant| %>
+            <option onclick="window.location='<%= send("#{ancestor_tag}_path", descendant.id) %>';">
+              <%= truncate(descendant.name, :length => 15) %>
+            </option>
+          <%- end %>
+        </select>
+
+      <%- end  %>
+
+    <%- end %>
+    
+  <%- elsif entity_hierarchy == entity_hierarchy.send(ancestor_tag) %>
+  
+    <%= link_to(truncate(entity_hierarchy.name, :length => 15), "/#{ancestor_tag.pluralize}/#{entity_hierarchy.id}", :style => "color:seagreen;") %>
+    <%- passed_entity = true %>
+    
+  <%- else %>
+
+    <%- ancestor = entity_hierarchy.send(ancestor_tag) || Admin.new %>
+    <%= link_to(truncate(ancestor.name, :length => 15), "/#{ancestor_tag.pluralize}/#{ancestor.id}") if allowed_to?(:view, ancestor_tag.pluralize) %>
+    
+  <%- end  %>
+  <%- unless ancestor_tag == hierarchy_tags.last %>&nbsp;&gt;&nbsp;<% end %>
+<%- end %>

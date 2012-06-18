@@ -1,7 +1,11 @@
 class BrandsController < EntityController
   def set_nav
-    @active_tab = 'brand'
+    @active_tab = 'brands'
     @active_section = 'Brand Admin'
-    @list_association = :merchants
+    @active_nav = 'Brands'
+    @entity_class = Brand
+    @entity_ability_category = :brands
+    @entity_base_route = brands_url
+    @index_columns = 1
   end
 end

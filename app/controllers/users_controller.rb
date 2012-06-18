@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_filter :require_user
   before_filter :set_nav
+  before_filter :find_current_entity
   before_filter :set_domain_roles
   before_filter :new_user, :only => [:create, :new]
   before_filter :find_user, :only => [:edit, :update, :destroy]
@@ -9,7 +10,8 @@ class UsersController < ApplicationController
   helper_method :domain_users_path
   
   def index
-    @users = @domain_roles.collect(&:users).flatten.uniq
+    # @users = @domain_roles.collect(&:users).flatten.uniq
+    @users = @current_entity.users
   end
 
   def new
@@ -40,7 +42,8 @@ class UsersController < ApplicationController
   end
   
   def new_user
-    @user = User.new
+    # @user = User.new
+    @user = @current_entity.users.new
     @permissions_action = :create
   end
   
@@ -65,5 +68,10 @@ class UsersController < ApplicationController
     end
   rescue
     logger.debug("user exception: #{$!.message}, backtrace: #{$!.backtrace}")
+  end
+
+  def find_current_entity
+    return if @current_entity
+    @current_entity = @entity = current_user.entity.send(@entity_association).select{ |e| e.id == params[@entity_key].to_i }.first
   end
 end

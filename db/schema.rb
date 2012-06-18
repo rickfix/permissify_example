@@ -10,12 +10,47 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120525171428) do
+ActiveRecord::Schema.define(:version => 20120613023713) do
 
-  create_table "products", :force => true do |t|
+  create_table "admins", :force => true do |t|
     t.string   "name"
-    t.text     "permissions"
-    t.datetime "deleted_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "brands", :force => true do |t|
+    t.string   "name"
+    t.integer  "dealer_id"
+    t.integer  "corporation_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "corporations", :force => true do |t|
+    t.string   "name"
+    t.integer  "dealer_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "dealers", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "manages_roles", :id => false, :force => true do |t|
+    t.integer "manage_id", :null => false
+    t.integer "role_id",   :null => false
+  end
+
+  create_table "merchants", :force => true do |t|
+    t.string   "name"
+    t.integer  "dealer_id"
+    t.integer  "corporation_id"
+    t.integer  "brand_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "roles", :force => true do |t|
@@ -39,6 +74,8 @@ ActiveRecord::Schema.define(:version => 20120525171428) do
     t.string   "persistence_token", :limit => 40
     t.string   "perishable_token",                :default => "", :null => false
     t.string   "email"
+    t.integer  "entity_id"
+    t.string   "entity_type"
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
   end

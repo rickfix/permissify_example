@@ -462,7 +462,7 @@ pre,
 #userStatus li.logout span{display:none;}
 ul{}
 li{}
-#mainNav{height:35px;padding-top:48px;padding-right:15px;}
+#mainNav{height:35px;padding-top:20px;padding-right:15px;}
 #mainNav li{float:right;display:inline;overflow:hidden;margin-left:1px;position:relative;}
 #mainNav li a{background:#eae5e0;border:2px solid #fff;border-bottom:1px solid #eae5e0;position:relative;padding:0 20px 5px;display:inline-block;height:27px;line-height:27px;color:#40352F;font-family:"Trebuchet MS","Lucida Grande",verdana,sans-serif;font-size:1em;font-weight:bold;/*text-decoration:none;*/
 border-radius:3px 3px 0 0;-o-border-radius:3px 3px 0 0;-icab-border-radius:3px 3px 0 0;-khtml-border-radius:3px 3px 0 0;-moz-border-radius:3px 3px 0 0;-webkit-border-radius:3px 3px 0 0;-moz-border-radius:3px 3px 0 0;}
@@ -711,4 +711,5 @@ sup{ vertical-align: super }
 i, em{ font-style: italic }
 blockquote{ margin-left: 40px; margin-right: 40px }
 
-.deletedRole { background-color:red; }
+.deletedRole { background-color:aliceblue; }
+.deletedEntity { background-color:aliceblue; }

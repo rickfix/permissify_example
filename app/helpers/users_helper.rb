@@ -1,5 +1,5 @@
 module UsersHelper
-  def form_locals(title, path = send("#{@domain_type.downcase}_user_path", @user), method = :put)
+  def form_locals(title, path = send("#{@domain_type.downcase}_#{@domain_type.downcase}_user_path", @current_entity.id, @user.id), method = :put)
     {:title => title, :path => path, :method => method}
   end
 
@@ -8,18 +8,18 @@ module UsersHelper
   end
   
   def new_domain_users_path
-    send("new_#{domain_path}")
+    send("new_#{domain_path}", @current_entity.id)
   end
   
   def domain_user_path(user)
-    send("#{domain_path}", user)
+    send("#{domain_path}", @current_entity.id, user.id)
   end
   
   def edit_domain_user_path(user)
-    send("edit_#{domain_path}", user)
+    send("edit_#{domain_path}", @current_entity.id, user.id)
   end
   
   def domain_path
-    "#{@domain_type.downcase}_user_path"
+    "#{@domain_type.downcase}_#{@domain_type.downcase}_user_path"
   end
 end

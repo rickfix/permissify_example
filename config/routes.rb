@@ -52,21 +52,36 @@ Permissify::Application.routes.draw do
   resource :user_session
   resources :roles
   resources :admin_users
-  resources :dealers
-  resources :dealer_users
-  resources :corporations
-  resources :corporation_users
-  resources :brands
-  resources :brand_users
-  resources :merchants
-  resources :merchant_users
+  
+  resources :admin do
+    resources :admin_users
+  end
+  
+  resources :dealers do
+    resources :dealer_users
+  end
+  
+  resources :corporations do
+    resources :corporation_users
+  end
+  
+  resources :brands do
+    resources :brand_users
+  end
+  
+  resources :merchants do
+    resources :merchant_users
+  end
+  
+  match ':entity_type/:entity_id/dealers' => "dealers#index", :as => :entity_dealers
+  match ':entity_type/:entity_id/dealer/:id' => "dealers#update_dealer", :as => :update_entity_dealer
+  match ':entity_type/:entity_id/corporations' => "corporations#index", :as => :entity_corporations
+  match ':entity_type/:entity_id/corporation/:id' => "corporations#update_corporation", :as => :update_entity_corporation
+  match ':entity_type/:entity_id/brands' => "brands#index", :as => :entity_brands
+  match ':entity_type/:entity_id/brand/:id' => "corporations#update_brand", :as => :update_entity_brand
+  match ':entity_type/:entity_id/merchants' => "merchants#index", :as => :entity_merchants
   match 'login' => "user_sessions#new",      :as => :login
-  root :to => 'login#new'
   match 'logout' => "user_sessions#destroy", :as => :logout
-  # match 'admin_dashboard' => 'admin_dashboard#index'
-  # match 'dealer_dashboard' => 'dealer_dashboard#index'
-  # match 'corporation_dashboard' => 'corporation_dashboard#index'
-  # match 'brand_dashboard' => 'brand_dashboard#index'
-  # match 'merchant_dashboard' => 'merchant_dashboard#index'
   match 'admins' => 'admin_users#index'
+  root :to => 'login#new'
 end

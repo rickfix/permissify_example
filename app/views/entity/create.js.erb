@@ -1,0 +1,7 @@
+<%- if @response_message.blank? %>
+  window.location = "<%= @entity_base_route %>?saved=<%= @entity.id %>";
+<%- else %><!-- TODO -->
+  $("#add<%= @entity.from %>_errors").html( "<%= truncate(@response_message, :length => 253) %>");
+  $("#add<%= @entity.from %>_errors").show();
+  $("#form.new_<%= @entity_name %> input.<%= @entity_name %>_name").focus();
+<%- end %>

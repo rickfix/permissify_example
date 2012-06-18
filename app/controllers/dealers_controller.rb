@@ -1,13 +1,11 @@
 class DealersController < EntityController
 
   def set_nav
-    @active_tab = 'dealer'
+    @active_tab = 'dealers'
     @active_section = 'Dealer Admin'
-    @active_nav = 'Dealers'
-    @entity_list = Dealer.all
-    @new_entity = Dealer.new
-    @create_path = new_dealer_path
-    @add_label = 'new dealer'
+    @entity_class = Dealer
+    @entity_ability_category = :dealers
+    @entity_base_route = dealers_url
     @index_columns = 1
   end
 

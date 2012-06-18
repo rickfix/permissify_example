@@ -27,36 +27,71 @@
       </li>
     </ul>
     
+    <%- @entity = nil unless params[:id] || params[:entity_id] || params[@entity_key] %>
     <div style="background-color:#888888; padding:2px;">
       <ul id="mainNav">
-        <%- Role::DOMAIN_TYPES.reverse.each do |tab_name| %>
-          <%- if allowed_to?(tab_name.downcase, :tabs) %>
-            <li <%= "class='active'" if @active_tab == tab_name.downcase %> >
-              <a class="fncyTab" href="<%= send("#{tab_name.downcase.pluralize}_path") %>">
-                <%= tab_name %>
+
+        <%- Ability.all.collect{|a| a[:action] if a[:key].start_with?('tabs_') && a[:action] != 'Admin'}.compact.reverse.each do |tab_name| %>
+          <%- next unless allowed_to?(tab_name.downcase, :tabs) %>
+          <li <%= "class='active'" if @active_tab == tab_name.downcase %> >
+            
+            <%- entities = current_user.entity.send(tab_name.downcase) %>
+            <%- count = entities.count %>
+            
+            <%- if count == 1 %>
+              <a href="<%= send("#{tab_name.singularize.downcase}_path", entities.first.id) %>">
+                <%= entities.first.name %>
               </a>
-            </li>
-          <%- end %>
+            <%- else %>
+              <a href="<%= send("#{tab_name.downcase.pluralize}_path") %>">
+                <%= count %> <%= tab_name %>
+                <%- if @current_entity %>
+                  <%- if (ancestor = @current_entity.send(tab_name.downcase.singularize)) %>
+                        <span style="color:<%= @current_entity == ancestor ? 'seagreen' : '#888888' %>;" onclick="window.location='<%= send("#{tab_name.downcase.singularize}_path", ancestor) %>'; return false;">
+                          &nbsp;&gt; <%= truncate(ancestor.name, :length => 8) %>
+                        </span>
+                  <%- elsif @current_entity.respond_to?(tab_name.downcase) %>
+                        <span style="color:olive;" onclick="window.location='<%= send("entity_#{tab_name.downcase}_path", @current_entity.class.name, @current_entity.id) %>'; return false;">
+                          &nbsp;: <%= @current_entity.send(tab_name.downcase).count %>&nbsp;
+                        </span>
+                  <%- end  %>
+                <%- end %>
+              </a>
+            <%- end  %>
+          </li>
         <%- end %>
+        
+        <%- if allowed_to?(:admin, :tabs) %>
+          <li <%= "class='active'" if @active_tab == 'admin' %> >
+            <a href="<%= admins_path %>">Admin</a>
+          </li>
+        <%- end %>
+        
       </ul>
     
       <div style="background-color:white; padding:12px;">
-        <div id='sidebar'>
-          <ul id="menu_secondary">
-            <li class="listStart">
-              <h4>Settings</h4>
-            </li>
-            <%- Ability.all.select{|a| a[:section] == @active_section}.collect{|a| a[:category]}.uniq.sort.each do |nav_item| %>
-              <%- nav_item_token = nav_item.downcase.gsub('-','_').gsub(':','').gsub('  ',' ').gsub(' ','_') %>
-              <%- if allowed_to?(:view, nav_item_token ) %>
-                <li <%= "class='active_subnav'" if @active_nav == nav_item %> >
-                  &nbsp;&nbsp;<a href="/<%= nav_item_token %>"><%= nav_item %></a>
-                </li>
+        <%- unless @active_section.blank? %>
+          <div id='sidebar'>
+            <ul id="menu_secondary">
+              <li class="listStart">
+                <h4>Settings</h4>
+              </li>
+              <%- Ability.all.select{|a| a[:section] == @active_section}.collect{|a| a[:category]}.uniq.sort.each do |nav_item| %>
+                <%- nav_item_token = nav_item.downcase.gsub('-','_').gsub(':','').gsub('  ',' ').gsub(' ','_') %>
+                <%- if allowed_to?(:view, nav_item_token ) && nav_item_token != @active_tab %>
+                  <%- entity_nav_path, nav_tag = entity_path_and_nav_label_for(nav_item) %>
+                  <li <%= "class='active_subnav'" if @active_nav == nav_item %> >
+                    &nbsp;&nbsp;
+                    <a href="<%= entity_nav_path ? entity_nav_path : nav_item_token %>">
+                      <%= nav_tag ? nav_tag : nav_item %>
+                    </a>
+                  </li>
+                <%- end %>
               <%- end %>
-            <%- end %>
-          </ul>
-          <br/>
-        </div>
+            </ul>
+            <br/>
+          </div>
+        <%- end %>
         <div id="mainContent">
           <div style="border:2px solid grey; padding:5px;">
             <%= yield %>

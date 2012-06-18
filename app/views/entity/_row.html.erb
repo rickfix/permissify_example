@@ -1,1 +1,19 @@
-<tr><td>ROW <%= row.name %><td></tr>
+<%- @permissions_object = @entity = row; set_tag @permissions_object %>
+<%- saved = params[:saved] && params[:saved].to_i == @entity.id %>
+<tr class="<%= cycle('odd', 'even') %>" id="<%=data_tag%>" <%= "style='background-color:aliceblue;'" if saved %> >
+
+  <td>
+    <%= render(:partial => 'entity_hierarchy', :collection => [@entity]) %>
+  </td>
+  <!-- %= render(:partial => 'additional_index_columns') % -->
+  <td>
+    <%- if allowed_to?(:delete, @entity_ability_category) %>
+      <span id="<%=delete_tag%>">
+        &nbsp;<%= link_to("delete", "#{@entity_base_route}/#{@entity.id}", :method => 'delete', :remote => true) %>
+      </span>
+    <%- end %>
+  </td>
+
+  <td id="<%=status_tag%>"></td>
+
+</tr>

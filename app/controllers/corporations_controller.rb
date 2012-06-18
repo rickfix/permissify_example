@@ -1,13 +1,12 @@
 class CorporationsController < EntityController
 
   def set_nav
-    @active_tab = 'corporation'
+    @active_tab = 'corporations'
     @active_section = 'Corporation Admin'
     @active_nav = 'Corporations'
-    @entity_list = Corporation.all
-    @new_entity = Corporation.new
-    @create_path = new_corporation_path
-    @add_label = 'new corporation'
+    @entity_class = Corporation
+    @entity_ability_category = :corporations
+    @entity_base_route = corporations_url
     @index_columns = 1
   end
 

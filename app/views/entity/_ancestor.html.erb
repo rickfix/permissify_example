@@ -1,0 +1,29 @@
+<%- next unless allowed_to?(:view, ancestors_tag = @ancestor_tag.pluralize) %>
+
+<%- count = (ancestors = current_user.entity.send(ancestors_tag)).count %>
+<%- current_ancestor = current_entity.send(@ancestor_tag) || Admin.new %>
+<%- if count == 1 %>
+
+  <%= ancestors.first == current_ancestor ?
+        link_to(truncate(current_ancestor.name, :length => 15), "/#{ancestors_tag}/#{ancestors.first.id}") :
+        "#{current_ancestor.name} (out of scope)"
+  %>
+  
+<%- elsif allowed_to?(:update, ancestors_tag) %>
+
+  Re-assign to: 
+  <select>
+    <%- ancestors.each do |ancestor| %>
+      <option
+        onclick="window.location='<%= send("update_entity_#{@ancestor_tag}_path", current_entity.class.name, current_entity.id, ancestor.id) %>';"
+        <% if current_ancestor == ancestor %>selected="selected"<% end %>
+      ><%= truncate(ancestor.name, :length => 15) %></option>
+    <%- end %>
+  </select>
+  
+<%- else %>
+
+  <%= truncate(current_ancestor.name, :length => 15) %>
+  
+<%- end  %>
+<br/>

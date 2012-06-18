@@ -2,7 +2,10 @@
 <%= form_for @user, :url => path, :html => {:method => method} do |u| %>
   <!-- %= u.error_messages % -->
 
-  <fieldset id="profitStreamsUsers">
+  <fieldset id="users">
+
+    <%= u.hidden_field :entity_type, :value => @current_entity.class.name %>
+    <%= u.hidden_field :entity_id,   :value => @current_entity.id %>
 
     <div class="inputCont">
       <%= u.label :login, "Login" %>

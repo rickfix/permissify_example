@@ -6,7 +6,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user_session, :current_user, :current_entity, :allowed_to?, :subscribed_to?
   
   def current_entity
-    nil # TODO
+    # nil # TODO
+    @entity ? @entity : current_user.entity
   end
 
 end
