@@ -51,6 +51,7 @@ Permissify::Application.routes.draw do
   # root :to => 'welcome#index'
   resource :user_session
   resources :roles
+  resources :products
   resources :admin_users
   
   resources :admin do
@@ -62,14 +63,17 @@ Permissify::Application.routes.draw do
   end
   
   resources :corporations do
+    resources :corporation_products
     resources :corporation_users
   end
   
   resources :brands do
+    resources :brand_products
     resources :brand_users
   end
   
   resources :merchants do
+    resources :merchant_products
     resources :merchant_users
   end
   

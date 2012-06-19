@@ -1,4 +1,7 @@
 class Merchant < ActiveRecord::Base
+
+  include PermissifiedProductsInterface::Merchant
+  has_and_belongs_to_many :products, :order => "name ASC"
   
   belongs_to :dealer
   belongs_to :corporation

@@ -1,5 +1,8 @@
 class Brand < ActiveRecord::Base
- 
+
+  include PermissifiedProductsInterface::Brand
+  has_and_belongs_to_many :products, :order => "name ASC"
+  
   belongs_to :dealer
   belongs_to :corporation
   has_many :users, :as => :entity, :dependent => :destroy

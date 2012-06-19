@@ -1,5 +1,8 @@
 class Corporation < ActiveRecord::Base
- 
+
+  include PermissifiedProductsInterface::Corporation
+  has_and_belongs_to_many :products, :order => "name ASC"
+  
   belongs_to :dealer
   has_many :users, :as => :entity, :dependent => :destroy
   has_many :brands, :dependent => :destroy

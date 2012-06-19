@@ -12,7 +12,10 @@ if Admin.count == 0
   a = Admin.new
   a.name = 'admin'
   a.save
+  a.roles << Role.first
 end
+
+Product.seed
 
 if User.count == 0
   a = Admin.first

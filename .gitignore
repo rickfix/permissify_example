@@ -4,15 +4,20 @@ test/*
 Gemfile.lock
 app/controllers/permissified_controller.rb
 app/controllers/permissions_controller.rb
+app/controllers/products_controller.rb
 app/models/ability.rb
 app/models/role.rb
 app/models/product.rb
 app/models/permissified_branch.rb
 app/models/permissified_merchant.rb
+app/models/permissified_products_interface
 app/models/system_fixtures
 app/helpers/permissions_helper.rb
+app/helpers/products_helper.rb
 app/helpers/roles_helper.rb
 app/views/permissions
+app/views/products
 app/views/roles
 db/migrate/*_create_roles_tables.rb
+db/migrate/*_create_products_tables.rb
 
