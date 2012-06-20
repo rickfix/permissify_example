@@ -713,3 +713,6 @@ blockquote{ margin-left: 40px; margin-right: 40px }
 
 .deletedRole { background-color:aliceblue; }
 .deletedEntity { background-color:aliceblue; }
+
+.addedProduct { background-color:aliceblue; }
+.removedProduct { background-color:ivory; }

@@ -1,0 +1,4 @@
+<%- div_id = "#dcb#{@product_id}" %>
+$("<%= div_id %>").removeClass('addedProduct');
+$("<%= div_id %>").removeClass('removedProduct');
+$("<%= div_id %>").addClass('<%= @response_class %>');

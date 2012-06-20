@@ -1,0 +1,13 @@
+<%- cb_id = "cb#{product.id}" %>
+<%- inherited = @inherited_product_ids.include?(product.id) %>
+<div id="d<%= cb_id %>">
+  <label for="<%= cb_id %>">
+    <input type="checkbox" name="<%= cb_id %>"  id="<%= cb_id %>"
+      <%= "checked='CHECKED'" if @permissible_entity_product_ids.include?(product.id) %>
+      <%= @updateable && ! inherited ? "onclick='update_entity_product(\"#{cb_id}\");'" : "disabled='disabled'" %>
+    />
+    &nbsp;
+    <%= product.name %>
+    <% if inherited %><span class='sup'>(inherited)</span><% end %>
+  </label>
+</div>

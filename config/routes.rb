@@ -63,17 +63,14 @@ Permissify::Application.routes.draw do
   end
   
   resources :corporations do
-    resources :corporation_products
     resources :corporation_users
   end
   
   resources :brands do
-    resources :brand_products
     resources :brand_users
   end
   
   resources :merchants do
-    resources :merchant_products
     resources :merchant_users
   end
   
@@ -82,8 +79,10 @@ Permissify::Application.routes.draw do
   match ':entity_type/:entity_id/corporations' => "corporations#index", :as => :entity_corporations
   match ':entity_type/:entity_id/corporation/:id' => "corporations#update_corporation", :as => :update_entity_corporation
   match ':entity_type/:entity_id/brands' => "brands#index", :as => :entity_brands
-  match ':entity_type/:entity_id/brand/:id' => "corporations#update_brand", :as => :update_entity_brand
+  match ':entity_type/:entity_id/brand/:id' => "brands#update_brand", :as => :update_entity_brand
   match ':entity_type/:entity_id/merchants' => "merchants#index", :as => :entity_merchants
+  match ':entity_type/:entity_id/products' => "entity_products#index", :as => :entity_products
+  match ':entity_type/:entity_id/products/:id/:on_or_off' => "entity_products#update", :as => :update_entity_products
   match 'login' => "user_sessions#new",      :as => :login
   match 'logout' => "user_sessions#destroy", :as => :logout
   match 'admins' => 'admin_users#index'

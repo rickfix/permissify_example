@@ -8,15 +8,10 @@ class EntityController < ApplicationController
   def index
     @current_entity ||= current_user.entity
     @entity_list = @current_entity ? @current_entity.send(@entity_name.pluralize) : current_user.entity.send(@entity_name.pluralize) # .all
-    if @entity_list.size == 1
-      @entity = @entity_list.first
-      render(:action => 'show')
-    else
-      @active_section = nil
-      @new_entity = @entity_class.new
-      @create_path = send("new_#{@entity_name}_path")
-      @add_label = "new #{@entity_name}"
-    end
+    @active_section = nil
+    @new_entity = @entity_class.new
+    @create_path = send("new_#{@entity_name}_path")
+    @add_label = "new #{@entity_name}"
   end
 
   def edit

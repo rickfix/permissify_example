@@ -35,29 +35,23 @@
           <%- next unless allowed_to?(tab_name.downcase, :tabs) %>
           <li <%= "class='active'" if @active_tab == tab_name.downcase %> >
             
-            <%- entities = current_user.entity.send(tab_name.downcase) %>
-            <%- count = entities.count %>
-            
-            <%- if count == 1 %>
-              <a href="<%= send("#{tab_name.singularize.downcase}_path", entities.first.id) %>">
-                <%= entities.first.name %>
-              </a>
-            <%- else %>
-              <a href="<%= send("#{tab_name.downcase.pluralize}_path") %>">
-                <%= count %> <%= tab_name %>
-                <%- if @current_entity %>
-                  <%- if (ancestor = @current_entity.send(tab_name.downcase.singularize)) %>
-                        <span style="color:<%= @current_entity == ancestor ? 'seagreen' : '#888888' %>;" onclick="window.location='<%= send("#{tab_name.downcase.singularize}_path", ancestor) %>'; return false;">
-                          &nbsp;&gt; <%= truncate(ancestor.name, :length => 8) %>
-                        </span>
-                  <%- elsif @current_entity.respond_to?(tab_name.downcase) %>
-                        <span style="color:olive;" onclick="window.location='<%= send("entity_#{tab_name.downcase}_path", @current_entity.class.name, @current_entity.id) %>'; return false;">
-                          &nbsp;: <%= @current_entity.send(tab_name.downcase).count %>&nbsp;
-                        </span>
-                  <%- end  %>
-                <%- end %>
-              </a>
-            <%- end  %>
+            <%- count = (entities = current_user.entity.send(tab_name.downcase)).count %>
+          
+            <a href="<%= send("#{tab_name.downcase.pluralize}_path") %>">
+              <%= count %> <%= tab_name %>
+              <%- if @current_entity %>
+                <%- if (ancestor = @current_entity.send(tab_name.downcase.singularize)) %>
+                    <span style="color:<%= @current_entity == ancestor ? 'seagreen' : '#888888' %>;" onclick="window.location='<%= send("#{tab_name.downcase.singularize}_path", ancestor) %>'; return false;">
+                      &nbsp;&gt; <%= truncate(ancestor.name, :length => 8) %>
+                    </span>
+                <%- elsif @current_entity.respond_to?(tab_name.downcase) %>
+                    <span style="color:olive;" onclick="window.location='<%= send("entity_#{tab_name.downcase}_path", @current_entity.class.name, @current_entity.id) %>'; return false;">
+                      &nbsp;: <%= @current_entity.send(tab_name.downcase).count %>&nbsp;
+                    </span>
+                <%- end  %>
+              <%- end %>
+            </a>
+
           </li>
         <%- end %>
         

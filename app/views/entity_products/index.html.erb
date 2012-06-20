@@ -1,0 +1,29 @@
+<h2>
+  Products : 
+  <%= link_to(truncate(current_entity.name, :length => 40), "/#{current_entity.class.name.downcase}s/#{current_entity.id}") %>
+</h2>
+
+<%- @permissible_entity_products = current_entity.permissible_products %>
+<%- @permissible_entity_product_ids = @permissible_entity_products.collect(&:id) %>
+<%- @inherited_product_ids = (@permissible_entity_products - current_entity.products).collect(&:id) %>
+<%- @updateable = allowed_to?(:update, "#{params[:entity_type]}_products") %>
+
+<br/>
+
+<script type="text/javascript">
+  function update_entity_product(product_checkbox_id) {
+    var product_id = product_checkbox_id.split('cb').pop();
+    var cb = $("#"+product_checkbox_id);
+    var on_or_off = '0';
+    if (cb.is(':checked')) {
+      on_or_off = '1'
+    }
+    $.ajax({
+      url: "/<%= current_entity.class.name %>/<%= current_entity.id %>/products/" + product_id + "/" + on_or_off,
+      dataType: "script"
+    })  }
+</script>
+
+<form>
+  <%= render(:partial => 'product', :collection => Product.all) %>
+</form>

@@ -18,14 +18,18 @@ module ApplicationHelper
   
   def entity_path_and_nav_label_for(nav_token)
     entity_id = (@current_entity || @entity).id
-    path_method, tag = { # 'Admin Users' => [admin_users_path(entity.id), 'Users'],
+    path_method, tag, is_entity_path = {
+      # 'Admin Users' => [admin_users_path(entity.id), 'Users'],
+      'Corporation Products' => [:entity_products_path, 'Products', true],
+      'Brand Products' => [:entity_products_path, 'Products', true],
+      'Merchant Products' => [:entity_products_path, 'Products', true],
       'Dealer Users' => [:dealer_dealer_users_path, 'Users'],
       'Corporation Users' => [:corporation_corporation_users_path, 'Users'],
       'Brand Users' => [:brand_brand_users_path, 'Users'],
       'Merchant Users' => [:merchant_merchant_users_path, 'Users']
     }[nav_token]
     return if path_method.nil?
-    [send(path_method, entity_id), tag]
-    # TODO : prefer something like: [domain_users_path, 'Users']
+    [is_entity_path ? send(path_method, (@current_entity || @entity).class.name, entity_id) : send(path_method, entity_id), tag]
+    # TODO : prefer something like: [entity_users_path, 'Users']
   end
 end
