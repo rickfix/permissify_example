@@ -36,7 +36,7 @@
     
   <%- else %>
 
-    <%- ancestor = entity_hierarchy.send(hierarchy_tag) || Admin.new %>
+    <%- ancestor = entity_hierarchy.send(hierarchy_tag) || eval(hierarchy_tag.titleize).new %>
     <%= link_to(truncate(ancestor.name, :length => 15), categorized_entity_url(ancestor, hierarchy_tag)) if allowed_to?(:view, hierarchy_tag.pluralize) %>
     
   <%- end  %>

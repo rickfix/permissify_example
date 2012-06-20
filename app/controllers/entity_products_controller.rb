@@ -37,7 +37,7 @@ class EntityProductsController < ApplicationController
     @entity_class = eval(@entity_type.classify)
     @entity_association = @entity_type.pluralize.downcase
     @entity_ability_category = @entity_type.pluralize.downcase.to_sym
-    @entity_base_route = send("#{@entity_type.pluralize.downcase}_url")
+    # @entity_base_route = send("#{@entity_type.pluralize.downcase}_url")
     @entity_name = @entity_type.singularize.downcase
   end
 

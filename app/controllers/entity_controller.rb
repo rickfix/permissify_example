@@ -93,4 +93,27 @@ class EntityController < ApplicationController
     logger.debug("*** find_entity_by_entity_id: #{@current_entity.inspect}"); @current_entity
   end
 
+  def set_nav # a whole lot of name coupling...
+    @entity_type = self.class::ENTITY_TYPE
+    @entity_id = params[:id]
+    @entity_category_path = "#{@entity_type.downcase}_path"
+    @is_entity_path = false
+    
+    @active_tab = "#{@entity_type.downcase.pluralize}"
+    @active_section = "#{@entity_type.titleize.singularize} Admin"
+    @active_nav = @entity_type.titleize.pluralize
+    @active_nav_text = 'Account'
+    
+    @entity_class = eval(@entity_type.classify)
+    @entity_association = @entity_type.pluralize.downcase
+    @entity_ability_category = @entity_type.pluralize.downcase.to_sym
+    @entity_base_route = send("#{@entity_type.pluralize.downcase}_url")
+    @entity_name = @entity_type.singularize.downcase
+
+    @domain_type = @entity_type
+    @domain_category = "#{@entity_type.downcase.to_sym}_admin".to_sym
+    @entity_key = "#{@entity_type.downcase}_id".to_sym
+    @entity_association = @entity_type.downcase.pluralize.to_sym
+  end
+
 end

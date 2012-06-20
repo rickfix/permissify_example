@@ -26,7 +26,11 @@ module ApplicationHelper
       'Dealer Users' => [:dealer_users_path, 'Users'],
       'Corporation Users' => [:corporation_users_path, 'Users'],
       'Brand Users' => [:brand_users_path, 'Users'],
-      'Merchant Users' => [:merchant_users_path, 'Users']
+      'Merchant Users' => [:merchant_users_path, 'Users'],
+      'Dealers' => [:dealer_path, 'Account', false],
+      'Corporations' => [:corporation_path, 'Account', false],
+      'Brands' => [:brand_path, 'Account', false],
+      'Merchants' => [:merchant_path, 'Account', false],
     }[nav_token]
     return if path_method.nil?
     [is_entity_path ? send(path_method, (@current_entity || @entity).class.name, entity_id) : send(path_method, entity_id), tag]

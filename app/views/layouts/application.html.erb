@@ -69,19 +69,20 @@
             <ul id="menu_secondary">
               <li class='active_subnav'>
                 &nbsp;&nbsp;
-                <a href="<%= @entity_category_path ? send(@entity_category_path, current_entity) : send("#{@active_nav.downcase.gsub('-','_').gsub(':','').gsub('  ',' ').gsub(' ','_').singularize.sub('_admin','')}_path", current_entity) %>">
+                <a href="<%= @entity_category_path ? categorized_entity_url(current_entity, @current_entity.class.name.downcase) : send("#{@active_nav.downcase.gsub('-','_').gsub(':','').gsub('  ',' ').gsub(' ','_').singularize.sub('_admin','')}_path", current_entity) %>">
                   <%= @active_nav_text ? @active_nav_text : @active_nav.singularize %>
                 </a>
               </li>
               <%- Ability.all.select{|a| a[:section] == @active_section}.collect{|a| a[:category]}.uniq.sort.each do |nav_item| %>
+<%- logger.debug("BONK_#{@active_nav}___#{nav_item}") %>
                 <%- next if @active_nav == nav_item %>
                 <%- nav_item_token = nav_item.downcase.gsub('-','_').gsub(':','').gsub('  ',' ').gsub(' ','_') %>
                 <%- if allowed_to?(:view, nav_item_token ) %>
                   <%- entity_nav_path, nav_tag = entity_path_and_nav_label_for(nav_item) %>
-                  <li <%= "class='active_subnav'" if @active_nav == nav_item %> >
+                  <li>
                     &nbsp;&nbsp;
                     <a href="<%= entity_nav_path ? entity_nav_path : send("#{nav_item_token.singularize}_path", current_entity) %>">
-                      <%= nav_tag ? nav_tag : nav_item.singularize %>
+                      <%= nav_tag ? nav_tag : nav_item %>
                     </a>
                   </li>
                 <%- end %>

@@ -44,7 +44,7 @@ class UsersController < ApplicationController
     @is_entity_path = false
     
     @active_tab = "#{@entity_type.downcase.pluralize}"
-    @active_section = "#{@entity_type.titleize.singularize} Admin"
+    @active_section = @entity_type == AdminUsersController::ENTITY_TYPE ? 'Admin' : "#{@entity_type.titleize.singularize} Admin"
     @active_nav = "#{@entity_type.titleize.singularize} Users"
     @active_nav_text = 'Users'
     
@@ -96,5 +96,6 @@ class UsersController < ApplicationController
   def find_current_entity
     return if @current_entity
     @current_entity = @entity = current_user.entity.send(@entity_association).select{ |e| e.id == params[@entity_key].to_i }.first
+    @current_entity ||= @entity ||=  current_user.entity
   end
 end

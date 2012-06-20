@@ -1,6 +1,6 @@
-<h3>
+<h4>
   <%= render(:partial => 'entity/entity_hierarchy', :collection => [current_entity]) %>
-</h3>
+</h4>
 
 <%- @permissible_entity_products = current_entity.permissible_products %>
 <%- @permissible_entity_product_ids = @permissible_entity_products.collect(&:id) %>
