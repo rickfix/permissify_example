@@ -23,19 +23,23 @@ module ApplicationHelper
       'Corporation Products' => [:entity_products_path, 'Products', true],
       'Brand Products' => [:entity_products_path, 'Products', true],
       'Merchant Products' => [:entity_products_path, 'Products', true],
-      'Dealer Users' => [:dealer_dealer_users_path, 'Users'],
-      'Corporation Users' => [:corporation_corporation_users_path, 'Users'],
-      'Brand Users' => [:brand_brand_users_path, 'Users'],
-      'Merchant Users' => [:merchant_merchant_users_path, 'Users']
+      'Dealer Users' => [:dealer_users_path, 'Users'],
+      'Corporation Users' => [:corporation_users_path, 'Users'],
+      'Brand Users' => [:brand_users_path, 'Users'],
+      'Merchant Users' => [:merchant_users_path, 'Users']
     }[nav_token]
     return if path_method.nil?
     [is_entity_path ? send(path_method, (@current_entity || @entity).class.name, entity_id) : send(path_method, entity_id), tag]
     # TODO : prefer something like: [entity_users_path, 'Users']
   end
   
-  def categorized_entity_url(e, hierarchy_tag)
-    @entity_category_path ?
-      send(@entity_category_path, hierarchy_tag, e.id) : 
+  def categorized_entity_url(e, hierarchy_tag, entity_category_path = @entity_category_path)
+    if entity_category_path
+      @is_entity_path == true ?
+        send(entity_category_path.sub(@entity_name, hierarchy_tag), hierarchy_tag, e) :
+        send(entity_category_path.sub(@entity_name, hierarchy_tag), e.id)
+    else
       send("#{hierarchy_tag.downcase}_path", e.id)
+    end
   end
 end

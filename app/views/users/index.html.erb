@@ -1,4 +1,6 @@
-<h2><%= @current_entity.name %> users</h2>
+<h3>
+  <%= render(:partial => 'entity/entity_hierarchy', :collection => [current_entity]) %>
+</h3>
 <br/>
 <%= format_notification( flash[:notice], "success" )%>  
 <table cellspacing='0' cellpadding='5' width='100%' id='users'>

@@ -20,6 +20,6 @@ module UsersHelper
   end
   
   def domain_path
-    "#{@domain_type.downcase}_#{@domain_type.downcase}_user_path"
+    "#{@domain_type.downcase}_user_path"
   end
 end

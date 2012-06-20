@@ -27,10 +27,12 @@ class EntityProductsController < ApplicationController
     @entity_type = params[:entity_type]
     @entity_id = params[:entity_id]
     @entity_category_path = "entity_products_path"
+    @is_entity_path = true
     
     @active_tab = "#{@entity_type.downcase.pluralize}"
     @active_section = "#{@entity_type.titleize.singularize} Admin"
     @active_nav = "#{@entity_type.titleize.singularize} Products"
+    @active_nav_text = 'Products'
     
     @entity_class = eval(@entity_type.classify)
     @entity_association = @entity_type.pluralize.downcase
