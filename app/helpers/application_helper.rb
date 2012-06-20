@@ -32,4 +32,10 @@ module ApplicationHelper
     [is_entity_path ? send(path_method, (@current_entity || @entity).class.name, entity_id) : send(path_method, entity_id), tag]
     # TODO : prefer something like: [entity_users_path, 'Users']
   end
+  
+  def categorized_entity_url(e, hierarchy_tag)
+    @entity_category_path ?
+      send(@entity_category_path, hierarchy_tag, e.id) : 
+      send("#{hierarchy_tag.downcase}_path", e.id)
+  end
 end

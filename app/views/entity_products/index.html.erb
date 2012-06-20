@@ -1,7 +1,7 @@
-<h2>
-  Products : 
-  <%= link_to(truncate(current_entity.name, :length => 40), "/#{current_entity.class.name.downcase}s/#{current_entity.id}") %>
-</h2>
+<h3>
+  Products :
+  <%= render(:partial => 'entity/entity_hierarchy', :collection => [current_entity]) %>
+</h3>
 
 <%- @permissible_entity_products = current_entity.permissible_products %>
 <%- @permissible_entity_product_ids = @permissible_entity_products.collect(&:id) %>
