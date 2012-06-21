@@ -9,7 +9,6 @@ class EntityController < ApplicationController
     @current_entity ||= current_user.entity
     @entity_list = @current_entity ? @current_entity.send(@entity_name.pluralize) : current_user.entity.send(@entity_name.pluralize) # .all
     @active_section = nil
-    @new_entity = @entity_class.new
     @create_path = send("new_#{@entity_name}_path")
     @add_label = "new #{@entity_name}"
   end
@@ -26,7 +25,8 @@ class EntityController < ApplicationController
   
   def create
     @entity = @permissions_object = @entity_class.new
-    @entity.name = params[@entity_name][:name]
+    @entity.name = (entity_params = params[@entity_name])[:name]
+    @entity.ancestors.each{ |ancestor| @entity.send("#{ancestor}_id=", entity_params["#{ancestor}_id"]) }
     @entity.save
     @response_message = @entity.errors.full_messages.join(', ')
   end
@@ -80,7 +80,7 @@ class EntityController < ApplicationController
   end
   
   def find_entity_by_id
-    @entity = current_user.entity.send(@entity_class.name.downcase+'s').select{ |e| e.id == params[:id].to_i }.first
+    @entity = current_user.entity.send(@entity_class.name.downcase.pluralize).select{ |e| e.id == params[:id].to_i }.first
     @current_entity ||= @entity
     logger.debug("*** find_entity_by_id: #{@entity.inspect}"); @entity
   end

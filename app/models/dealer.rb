@@ -17,5 +17,7 @@ class Dealer < ActiveRecord::Base
   def brand=(b); nil; end
   def merchant; nil; end
   def parent; nil; end
+  def children; self.corporations; end
+  def ancestors; []; end
 
 end

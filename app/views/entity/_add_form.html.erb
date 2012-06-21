@@ -1,13 +1,8 @@
-<tfoot>
-  <tr>
-    <td colspan="<%= @index_columns %>">
-      <br/>
-      <%= form_for @new_entity, :remote => true do |f| %>
-        <%= f.text_field :name, :maxlength => 31, :size => 12 %>
-        &nbsp;&nbsp;&nbsp;
-        <%= f.submit @add_label, :class => 'fncyBtn' %>
-      <%- end %>
-    </td>
-  </tr>
-  <tr><td colspan="<%= @index_columns %>" id='add_errors'></td></tr>
-</tfoot>
+<%= form_for( (@new_entity = @entity.children.new), :remote => true ) do |f| %>
+  <%= f.text_field :name, :maxlength => 31, :size => 12 %>
+  <%- @new_entity.ancestors.each do |a| %>
+    <%= f.hidden_field "#{a}_id", :value => @entity.send("#{a}").id %>
+  <%- end %>
+  &nbsp;&nbsp;&nbsp;
+  <%= f.submit @add_label, :class => 'fncyBtn' %>
+<%- end if @entity.children %>

@@ -15,5 +15,7 @@ class Corporation < ActiveRecord::Base
   def brand=(b); self; end
   def merchant; nil; end
   def parent; self.dealer; end
+  def children; self.brands; end
+  def ancestors; [:dealer]; end
   
 end

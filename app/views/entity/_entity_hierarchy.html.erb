@@ -31,7 +31,7 @@
     
   <%- elsif entity_hierarchy == entity_hierarchy.send(hierarchy_tag) %>
   
-    <%= link_to(truncate(entity_hierarchy.name, :length => 15), categorized_entity_url(entity_hierarchy, hierarchy_tag), :style => "color:seagreen;") %>
+    <%= link_to(entity_hierarchy.name, categorized_entity_url(entity_hierarchy, hierarchy_tag), :style => "color:seagreen;") %>
     <%- passed_entity = true %>
     
   <%- else %>

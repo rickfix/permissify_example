@@ -13,5 +13,7 @@ class Brand < ActiveRecord::Base
   def brands; [self]; end
   def merchant; nil; end
   def parent; self.corporation; end
+  def children; self.merchants; end
+  def ancestors; [:dealer, :corporation]; end
   
 end

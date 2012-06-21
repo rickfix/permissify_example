@@ -11,5 +11,7 @@ class Merchant < ActiveRecord::Base
   def merchant; self; end
   def merchants; [self]; end
   def parent; self.brand; end
+  def children; nil; end
+  def ancestors; [:dealer, :corporation, :brand]; end
 
 end
