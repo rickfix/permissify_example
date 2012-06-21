@@ -43,7 +43,7 @@ class UsersController < ApplicationController
     @entity_category_path = "#{@entity_type.downcase}_users_path"
     @is_entity_path = false
     
-    @active_tab = "#{@entity_type.downcase.pluralize}"
+    @active_tab = @entity_type == 'Admin' ? 'admin' : "#{@entity_type.downcase.pluralize}"
     @active_section = @entity_type == AdminUsersController::ENTITY_TYPE ? 'Admin' : "#{@entity_type.titleize.singularize} Admin"
     @active_nav = "#{@entity_type.titleize.singularize} Users"
     @active_nav_text = 'Users'

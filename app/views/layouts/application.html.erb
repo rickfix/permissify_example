@@ -68,7 +68,7 @@
           <div id='sidebar'>
             <ul id="menu_secondary">
               <%= render(:partial => 'layouts/nav_item', :collection => [@active_nav], :locals => {:li_html_options => "class='active_subnav'"}) %>
-              <%= render(:partial => 'layouts/nav_item', :collection => inactive_nav_items) %>
+              <% sorted_inactive_nav_items.each do |nav_item| %><%= @nav_list[nav_item] %><% end %>
             </ul>
             <br/>
           </div>

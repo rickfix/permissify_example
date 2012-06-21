@@ -20,34 +20,35 @@ module ApplicationHelper
     Ability.all.collect{|a| a[:category] if a[:section] == @active_section && a[:category] != @active_nav}.compact.uniq.sort
   end
   
-  def nav_item_token_for(nav_item)
+  def permission_category_for(nav_item)
     nav_item.downcase.gsub('-','_').gsub(':','').gsub('  ',' ').gsub(' ','_')
   end
   
+  # TODO : how to handle product stuff?
+  NAVIGATION_COMBOBULATOR = {
+    'Roles' => [:roles_path, :non_entity_path],
+    'Products' => [:products_path, :non_entity_path],
+
+    'Admin Users' => [:admin_users_path, :non_entity_path, 'Users'],
+
+    'Dealers' => [:dealer_path, :entity_id_path, 'Account'],
+    'Dealer Users' => [:dealer_users_path, :entity_id_path, 'Users'],
+
+    'Corporations' => [:corporation_path, :entity_id_path, 'Account'],
+    'Corporation Users' => [:corporation_users_path, :entity_id_path, 'Users'],
+    'Corporation Products' => [:entity_products_path, :entity_path, 'Products'],
+
+    'Brands' => [:brand_path, :entity_id_path, 'Account'],
+    'Brand Users' => [:brand_users_path, :entity_id_path, 'Users'],
+    'Brand Products' => [:entity_products_path, :entity_path, 'Products'],
+
+    'Merchants' => [:merchant_path, :entity_id_path, 'Account'],
+    'Merchant Users' => [:merchant_users_path, :entity_id_path, 'Users'],
+    'Merchant Products' => [:entity_products_path, :entity_path, 'Products'],   
+  }
+  
   def nav_link_href_and_text_for(nav_token)
-    path_method, path_generation_method, nav_text = {
-      
-      'Roles' => [:roles_path, :non_entity_path],
-      'Products' => [:products_path, :non_entity_path],
-
-      'Admin Users' => [:admin_users_path, :non_entity_path, 'Users'],
-
-      'Dealers' => [:dealer_path, :entity_id_path, 'Account'],
-      'Dealer Users' => [:dealer_users_path, :entity_id_path, 'Users'],
-
-      'Corporations' => [:corporation_path, :entity_id_path, 'Account'],
-      'Corporation Users' => [:corporation_users_path, :entity_id_path, 'Users'],
-      'Corporation Products' => [:entity_products_path, :entity_path, 'Products'],
-
-      'Brands' => [:brand_path, :entity_id_path, 'Account'],
-      'Brand Users' => [:brand_users_path, :entity_id_path, 'Users'],
-      'Brand Products' => [:entity_products_path, :entity_path, 'Products'],
-
-      'Merchants' => [:merchant_path, :entity_id_path, 'Account'],
-      'Merchant Users' => [:merchant_users_path, :entity_id_path, 'Users'],
-      'Merchant Products' => [:entity_products_path, :entity_path, 'Products'],
-
-    }[nav_token]
+    path_method, path_generation_method, nav_text = NAVIGATION_COMBOBULATOR[nav_token]
     return if path_method.nil?
     [send(path_generation_method, path_method, (@current_entity || @entity)), nav_text || nav_token]
   end
@@ -73,4 +74,14 @@ module ApplicationHelper
       send("#{hierarchy_tag.downcase}_path", e.id)
     end
   end
+
+  def sorted_inactive_nav_items
+    @nav_list = {}
+    inactive_nav_items.each do |nav_item|
+      item = render(:partial => 'layouts/nav_item', :collection => [nav_item])
+      @nav_list[@nav_tag] = item
+    end
+    @nav_list.keys.sort
+  end
+  
 end
