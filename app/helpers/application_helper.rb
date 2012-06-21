@@ -16,25 +16,52 @@ module ApplicationHelper
     send("edit_#{current_user.primary_domain_type.downcase}_#{current_user.primary_domain_type.downcase}_user_path", (@current_entity || @entity).id, current_user.id)
   end
   
-  def entity_path_and_nav_label_for(nav_token)
-    entity_id = (@current_entity || @entity).id
-    path_method, tag, is_entity_path = {
-      # 'Admin Users' => [admin_users_path(entity.id), 'Users'],
-      'Corporation Products' => [:entity_products_path, 'Products', true],
-      'Brand Products' => [:entity_products_path, 'Products', true],
-      'Merchant Products' => [:entity_products_path, 'Products', true],
-      'Dealer Users' => [:dealer_users_path, 'Users'],
-      'Corporation Users' => [:corporation_users_path, 'Users'],
-      'Brand Users' => [:brand_users_path, 'Users'],
-      'Merchant Users' => [:merchant_users_path, 'Users'],
-      'Dealers' => [:dealer_path, 'Account', false],
-      'Corporations' => [:corporation_path, 'Account', false],
-      'Brands' => [:brand_path, 'Account', false],
-      'Merchants' => [:merchant_path, 'Account', false],
+  def inactive_nav_items
+    Ability.all.collect{|a| a[:category] if a[:section] == @active_section && a[:category] != @active_nav}.compact.uniq.sort
+  end
+  
+  def nav_item_token_for(nav_item)
+    nav_item.downcase.gsub('-','_').gsub(':','').gsub('  ',' ').gsub(' ','_')
+  end
+  
+  def nav_link_href_and_text_for(nav_token)
+    path_method, path_generation_method, nav_text = {
+      
+      'Roles' => [:roles_path, :non_entity_path],
+      'Products' => [:products_path, :non_entity_path],
+
+      'Admin Users' => [:admin_users_path, :non_entity_path, 'Users'],
+
+      'Dealers' => [:dealer_path, :entity_id_path, 'Account'],
+      'Dealer Users' => [:dealer_users_path, :entity_id_path, 'Users'],
+
+      'Corporations' => [:corporation_path, :entity_id_path, 'Account'],
+      'Corporation Users' => [:corporation_users_path, :entity_id_path, 'Users'],
+      'Corporation Products' => [:entity_products_path, :entity_path, 'Products'],
+
+      'Brands' => [:brand_path, :entity_id_path, 'Account'],
+      'Brand Users' => [:brand_users_path, :entity_id_path, 'Users'],
+      'Brand Products' => [:entity_products_path, :entity_path, 'Products'],
+
+      'Merchants' => [:merchant_path, :entity_id_path, 'Account'],
+      'Merchant Users' => [:merchant_users_path, :entity_id_path, 'Users'],
+      'Merchant Products' => [:entity_products_path, :entity_path, 'Products'],
+
     }[nav_token]
     return if path_method.nil?
-    [is_entity_path ? send(path_method, (@current_entity || @entity).class.name, entity_id) : send(path_method, entity_id), tag]
-    # TODO : prefer something like: [entity_users_path, 'Users']
+    [send(path_generation_method, path_method, (@current_entity || @entity)), nav_text || nav_token]
+  end
+  
+  def entity_path(path_method, entity)
+    send(path_method, entity.class.name, entity.id)
+  end
+  
+  def entity_id_path(path_method, entity)
+    send(path_method, entity.id)
+  end
+  
+  def non_entity_path(path_method, entity)
+    send(path_method)
   end
   
   def categorized_entity_url(e, hierarchy_tag, entity_category_path = @entity_category_path)

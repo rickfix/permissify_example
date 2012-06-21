@@ -1,5 +1,5 @@
 module UsersHelper
-  def form_locals(title, path = send("#{@domain_type.downcase}_#{@domain_type.downcase}_user_path", @current_entity.id, @user.id), method = :put)
+  def form_locals(title, path = send("#{@domain_type.downcase}_user_path", @current_entity.id, @user.id), method = :put)
     {:title => title, :path => path, :method => method}
   end
 

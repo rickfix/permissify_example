@@ -1,0 +1,7 @@
+<%- return unless allowed_to?(:view, nav_item_token_for(nav_item) ) %>
+
+<%- entity_nav_path, nav_tag = nav_link_href_and_text_for(nav_item) %>
+<li <%= li_html_options ||= '' %> >
+  &nbsp;&nbsp;
+  <a href="<%= entity_nav_path %>"><%= nav_tag %></a>
+</li>
