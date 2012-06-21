@@ -46,7 +46,7 @@ module ApplicationHelper
     'Merchant Users' => [:merchant_users_path, :entity_id_path, 'Users'],
     'Merchant Products' => [:entity_products_path, :entity_path, 'Products'],
     
-    'eGift' => [:entity_products_path, :entity_path],
+    'eGift' => [:egift_path, :entity_path],
     'Guest Management' => [:entity_products_path, :entity_path],
     'Loyalty' => [:entity_products_path, :entity_path],
     'Marketing Engine' => [:entity_products_path, :entity_path],

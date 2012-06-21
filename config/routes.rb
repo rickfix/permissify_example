@@ -89,6 +89,8 @@ Permissify::Application.routes.draw do
   match ':entity_type/:entity_id/products' => "entity_products#index", :as => :entity_products
   match ':entity_type/:entity_id/products/:id/:on_or_off' => "entity_products#update", :as => :update_entity_products
 
+  match ':entity_type/:entity_id/egift' => "egift#show", :as => :egift
+
   match 'login' => "user_sessions#new",      :as => :login
   match 'logout' => "user_sessions#destroy", :as => :logout
   match 'admins' => 'admin_users#index'
