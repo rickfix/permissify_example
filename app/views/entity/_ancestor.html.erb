@@ -1,4 +1,4 @@
-<%- next unless allowed_to?(:view, ancestors_tag = @ancestor_tag.pluralize) %>
+<%- return unless allowed_to?(:view, ancestors_tag = @ancestor_tag.pluralize) %>
 
 <%- count = (ancestors = current_user.entity.send(ancestors_tag)).count %>
 <%- current_ancestor = current_entity.send(@ancestor_tag) || Admin.new %>

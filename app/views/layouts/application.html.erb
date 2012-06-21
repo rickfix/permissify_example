@@ -35,6 +35,13 @@
           <%- next unless allowed_to?(tab_name.downcase, :tabs) %>
           <li <%= "class='active'" if @active_tab == tab_name.downcase %> >
             
+            <%- if tab_name.start_with?(current_user.entity_type) %>
+              <a href="<%= send("#{tab_name.downcase.singularize}_path", current_user.entity) %>">
+                <%= truncate(current_user.entity.name, :length => 30) %>
+              </a>
+              <%- next %>
+            <%- end %>
+            
             <%- count = (entities = current_user.entity.send(tab_name.downcase)).count %>
           
             <a href="<%= send("#{tab_name.downcase.pluralize}_path") %>">

@@ -13,18 +13,18 @@ module ApplicationHelper
   end
   
   def current_user_edit_path
-    send("edit_#{current_user.primary_domain_type.downcase}_#{current_user.primary_domain_type.downcase}_user_path", (@current_entity || @entity).id, current_user.id)
+    send("edit_#{current_user.primary_domain_type.downcase}_user_path", (@current_entity || @entity).id, current_user.id)
   end
   
   def inactive_nav_items
-    Ability.all.collect{|a| a[:category] if a[:section] == @active_section && a[:category] != @active_nav}.compact.uniq.sort
+    Ability.all.collect{|a| a[:category] if a[:section] == @active_section && a[:category] != @active_nav}.compact.uniq +
+      ['eGift', 'Guest Management', 'Loyalty', 'Marketing Engine', 'Online Ordering', 'Webpage Builder']
   end
   
   def permission_category_for(nav_item)
     nav_item.downcase.gsub('-','_').gsub(':','').gsub('  ',' ').gsub(' ','_')
   end
   
-  # TODO : how to handle product stuff?
   NAVIGATION_COMBOBULATOR = {
     'Roles' => [:roles_path, :non_entity_path],
     'Products' => [:products_path, :non_entity_path],
@@ -44,7 +44,14 @@ module ApplicationHelper
 
     'Merchants' => [:merchant_path, :entity_id_path, 'Account'],
     'Merchant Users' => [:merchant_users_path, :entity_id_path, 'Users'],
-    'Merchant Products' => [:entity_products_path, :entity_path, 'Products'],   
+    'Merchant Products' => [:entity_products_path, :entity_path, 'Products'],
+    
+    'eGift' => [:entity_products_path, :entity_path],
+    'Guest Management' => [:entity_products_path, :entity_path],
+    'Loyalty' => [:entity_products_path, :entity_path],
+    'Marketing Engine' => [:entity_products_path, :entity_path],
+    'Online Ordering' => [:entity_products_path, :entity_path],
+    'Webpage Builder' => [:entity_products_path, :entity_path],
   }
   
   def nav_link_href_and_text_for(nav_token)
@@ -81,7 +88,11 @@ module ApplicationHelper
       item = render(:partial => 'layouts/nav_item', :collection => [nav_item])
       @nav_list[@nav_tag] = item
     end
-    @nav_list.keys.sort
+    @nav_list.keys.compact.sort{|k1,k2| k1.downcase <=> k2.downcase}
   end
   
+  def permissible_nav_item(nav_item)
+    category = permission_category_for(nav_item)
+    allowed_to?(:view, category) || subscribed_to?(category)
+  end
 end

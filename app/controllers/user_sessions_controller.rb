@@ -12,7 +12,7 @@ class UserSessionsController < ApplicationController
     if @user_session.save
       domain_type = @user_session.user.primary_domain_type
       if domain_type
-        redirect_to send("#{@user_session.user.primary_domain_type.downcase.pluralize}_path")
+        redirect_to (et = @user_session.user.entity_type) == 'Admin' ? admins_path : send("#{domain_type.downcase}_path", @user_session.user.entity)
       else
         redirect_to '/logout'
       end

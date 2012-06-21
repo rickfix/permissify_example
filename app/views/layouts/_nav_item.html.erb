@@ -1,7 +1,7 @@
-<%- return unless allowed_to?(:view, permission_category_for(nav_item) ) %>
+<%- @nav_tag = nil; return unless permissible_nav_item(nav_item) %>
 
 <%- entity_nav_path, @nav_tag = nav_link_href_and_text_for(nav_item) %>
 <li <%= li_html_options ||= '' %> >
   &nbsp;&nbsp;
-  <a href="<%= entity_nav_path %>"><%= @nav_tag %></a>
+  <a href="<%= entity_nav_path %>"><%= @nav_tag ||= nav_item %></a>
 </li>
