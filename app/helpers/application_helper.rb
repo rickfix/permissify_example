@@ -17,8 +17,10 @@ module ApplicationHelper
   end
   
   def inactive_nav_items
-    Ability.all.collect{|a| a[:category] if a[:section] == @active_section && a[:category] != @active_nav}.compact.uniq +
-      ['eGift', 'Guest Management', 'Loyalty', 'Marketing Engine', 'Online Ordering', 'Webpage Builder']
+    items = Ability.all.collect{|a| a[:category] if a[:section] == @active_section}.compact.uniq +
+            ['eGift', 'Guest Management', 'Loyalty', 'Marketing Engine', 'Online Ordering', 'Webpage Builder']
+    items.delete(@active_nav_text)
+    items
   end
   
   def permission_category_for(nav_item)
@@ -47,7 +49,8 @@ module ApplicationHelper
     'Merchant Products' => [:entity_products_path, :entity_path, 'Products'],
     
     'eGift' => [:egift_path, :entity_path],
-    'Guest Management' => [:entity_products_path, :entity_path],
+    'Guest Management' => [:guest_management_path, :entity_path],
+    
     'Loyalty' => [:entity_products_path, :entity_path],
     'Marketing Engine' => [:entity_products_path, :entity_path],
     'Online Ordering' => [:entity_products_path, :entity_path],
