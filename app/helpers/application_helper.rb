@@ -50,11 +50,10 @@ module ApplicationHelper
     
     'eGift' => [:egift_path, :entity_path],
     'Guest Management' => [:guest_management_path, :entity_path],
-    
-    'Loyalty' => [:entity_products_path, :entity_path],
-    'Marketing Engine' => [:entity_products_path, :entity_path],
-    'Online Ordering' => [:entity_products_path, :entity_path],
-    'Webpage Builder' => [:entity_products_path, :entity_path],
+    'Loyalty' => [:loyalty_path, :entity_path],
+    'Marketing Engine' => [:marketing_engine_path, :entity_path],
+    'Online Ordering' => [:online_ordering_path, :entity_path],
+    'Webpage Builder' => [:webpage_builder_path, :entity_path],
   }
   
   def nav_link_href_and_text_for(nav_token)

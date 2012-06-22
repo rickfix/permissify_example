@@ -6,3 +6,7 @@
 <br/>
 
 <%= @active_nav_text %> Show
+
+<br/>
+
+<% if ! subscribed_to?(@active_nav) %><%= @entity.name %> is not subscribed to <%= @active_nav %>.<% end %>

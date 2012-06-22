@@ -91,6 +91,10 @@ Permissify::Application.routes.draw do
 
   match ':entity_type/:entity_id/egift' => "egift#show", :as => :egift
   match ':entity_type/:entity_id/guest_management' => "guest_management#show", :as => :guest_management
+  match ':entity_type/:entity_id/loyalty' => "loyalty#show", :as => :loyalty
+  match ':entity_type/:entity_id/marketing_engine' => "marketing_engine#show", :as => :marketing_engine
+  match ':entity_type/:entity_id/online_ordering' => "online_ordering#show", :as => :online_ordering
+  match ':entity_type/:entity_id/webpage_builder' => "webpage_builder#show", :as => :webpage_builder
 
   match 'login' => "user_sessions#new",      :as => :login
   match 'logout' => "user_sessions#destroy", :as => :logout
