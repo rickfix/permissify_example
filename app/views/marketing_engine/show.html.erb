@@ -1,0 +1,8 @@
+<%= render(:partial => 'entity/entity_product_header') %>
+
+<% return unless subscribed_to?(@active_nav) %>
+
+<%= @active_nav_text %> Show<br/><br/>
+
+<%= permission_status(@entity, :repeat, :social_media) %><br/>
+<%= permission_status(current_user, :repeat, :social_media) %><br/>

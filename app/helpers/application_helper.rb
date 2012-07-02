@@ -20,6 +20,7 @@ module ApplicationHelper
     items = Ability.all.collect{|a| a[:category] if a[:section] == @active_section}.compact.uniq +
             ['eGift', 'Guest Management', 'Loyalty', 'Marketing Engine', 'Online Ordering', 'Webpage Builder']
     items.delete(@active_nav_text)
+    items.delete(@active_nav)
     items
   end
   
@@ -96,5 +97,13 @@ module ApplicationHelper
   def permissible_nav_item(nav_item)
     category = permission_category_for(nav_item)
     allowed_to?(:view, category) || subscribed_to?(category)
+  end
+  
+  def subscription_status(product_name = @active_nav)
+    "Entity is #{subscribed_to?(product_name) ? '' : 'not '} subscribed to #{product_name.to_s.gsub('_',' ')}."
+  end
+  
+  def permission_status(permissifed_model, action, category)
+    "#{permissifed_model.class.name} is #{permissifed_model.allowed_to?(action, category) ? '' : 'not '} allowed to #{action} #{category.to_s.gsub('_',' ')}."
   end
 end
