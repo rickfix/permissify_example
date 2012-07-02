@@ -1,0 +1,7 @@
+<%= render(:partial => 'entity/index') %>
+
+<%= form_for( (@new_entity = Dealer.new), :remote => true ) do |f| %>
+  <%= f.text_field :name, :maxlength => 31, :size => 12 %>
+  &nbsp;&nbsp;&nbsp;
+  <%= f.submit @add_label, :class => 'fncyBtn' %>
+<%- end if allowed_to?(:create, :dealers) %>
