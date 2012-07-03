@@ -2,7 +2,7 @@
   <%= render(:partial => 'entity/entity_hierarchy', :collection => [current_entity]) %>
 </h4>
 
-<%- @permissible_entity_products = current_entity.permissible_products %>
+<%- @permissible_entity_products = current_entity.send(current_entity.class::PERMISSIFIED_ASSOCIATION) %>
 <%- @permissible_entity_product_ids = @permissible_entity_products.collect(&:id) %>
 <%- @inherited_product_ids = (@permissible_entity_products - current_entity.products).collect(&:id) %>
 <%- @updateable = allowed_to?(:update, "#{params[:entity_type]}_products") %>

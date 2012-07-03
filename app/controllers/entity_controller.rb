@@ -1,8 +1,9 @@
 class EntityController < ApplicationController
   before_filter :require_user
   before_filter :set_nav
+  before_filter :derive_entity_type_values
   before_filter :set_other_entity_stuff
-  before_filter :find_entity_by_id, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_entity_by_id, :only => [:show, :destroy]
   before_filter :find_entity_by_entity_id, :only => [:index, :update_dealer, :update_corporation, :update_brand]
 
   def index
@@ -13,9 +14,6 @@ class EntityController < ApplicationController
     @add_label = "new #{@entity_name}"
   end
 
-  def edit
-  end
-  
   def destroy
     @entity.respond_to?(:deleted_at) ? @entity.update_attribute(:deleted_at, Time.now) : @entity.destroy
   end
@@ -29,19 +27,6 @@ class EntityController < ApplicationController
     @entity.ancestors.each{ |ancestor| @entity.send("#{ancestor}_id=", entity_params["#{ancestor}_id"]) }
     @entity.save
     @response_message = @entity.errors.full_messages.join(', ')
-  end
-  
-  def update
-    # permission_attributes = params[@permissions_name]
-    # permission_attributes ||= {}
-    # class_attributes = params[@corresponding_class_params_key]
-    # class_attributes ||= {}
-    # # @saved = @permissions_object.update_attributes class_attributes.merge(permission_attributes)
-    # attrs = class_attributes.merge(permission_attributes)
-    # @permissions_object.permissions = attrs[:permissions]
-    # set_permissions_object_specific_values(attrs)
-    # # @permissions_object.attributes = class_attributes.merge(permission_attributes)
-    # @saved = @permissions_object.save
   end
   
   def update_dealer
@@ -95,25 +80,10 @@ class EntityController < ApplicationController
 
   def set_nav # a whole lot of name coupling...
     @entity_type = self.class::ENTITY_TYPE
-    @entity_id = params[:id]
     @entity_category_path = "#{@entity_type.downcase}_path"
-    @is_entity_path = false
-    
-    @active_tab = "#{@entity_type.downcase.pluralize}"
-    @active_section = "#{@entity_type.titleize.singularize} Admin"
-    @active_nav = @entity_type.titleize.pluralize
     @active_nav_text = 'Account'
-    
-    @entity_class = eval(@entity_type.classify)
-    @entity_association = @entity_type.pluralize.downcase
-    @entity_ability_category = @entity_type.pluralize.downcase.to_sym
-    @entity_base_route = send("#{@entity_type.pluralize.downcase}_url")
-    @entity_name = @entity_type.singularize.downcase
-
-    @domain_type = @entity_type
     @domain_category = "#{@entity_type.downcase.to_sym}_admin".to_sym
-    @entity_key = "#{@entity_type.downcase}_id".to_sym
-    @entity_association = @entity_type.downcase.pluralize.to_sym
+    @active_nav = @entity_type.titleize.pluralize
   end
 
 end

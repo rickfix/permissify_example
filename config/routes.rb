@@ -52,10 +52,8 @@ Permissify::Application.routes.draw do
   resource :user_session
   resources :roles
   resources :products
-  resources :admin_users
   
-  resources :admin do
-    resources :admin_users
+  resources :admins do
     resources :users, :controller => :admin_users
   end
   

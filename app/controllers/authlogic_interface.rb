@@ -23,12 +23,12 @@ module AuthlogicInterface
   end
 
   def require_no_user
-    if current_user
-      # store_location
-    	flash[:notice] = "You have been logged out"
-      # redirect_to account_url
-      # return false
-    end
+    # if current_user
+    #   # store_location
+    #   # flash[:notice] = "You have been logged out"
+    #   # redirect_to account_url
+    #   # return false
+    # end
   end
 
   # def store_location

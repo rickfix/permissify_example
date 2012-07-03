@@ -32,7 +32,7 @@ module ApplicationHelper
     'Roles' => [:roles_path, :non_entity_path],
     'Products' => [:products_path, :non_entity_path],
 
-    'Admin Users' => [:admin_users_path, :non_entity_path, 'Users'],
+    'Admin Users' => [:admin_users_path, :entity_id_path, 'Users'],
 
     'Dealers' => [:dealer_path, :entity_id_path, 'Account'],
     'Dealer Users' => [:dealer_users_path, :entity_id_path, 'Users'],

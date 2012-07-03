@@ -11,21 +11,32 @@
   </div>
   <div id="pageContainer">
     
-    <ul id="userStatus">
-      <li> Welcome,&nbsp; </li>
-      <li>
-        <a id="my_profile" href="<%= current_user_edit_path %>">
-          <%= current_user.login %>
-        </a>
-      </li>
-      <li>|</li>
+    <%= form_for( (@user_session = UserSession.new), :url => user_session_path ) do |f| %>
+      <ul id="userStatus">
+        <li> Welcome,&nbsp; </li>
+        <li>
+          <a id="my_profile" href="<%= current_user_edit_path %>">
+            <%= current_user.login %>
+          </a>
+        </li>
+
+        <li>|</li>
       
-      <li class="logout">
-        <a href="/logout">
-          logout
-        </a>
-      </li>
-    </ul>
+        <li>
+          <%- other_users = User.all.select{|u| current_user != u}.sort{|u1,u2| u1.login <=> u2.login}.collect(&:login) %>
+          <%= f.select :login, other_users.unshift(['change to user','']), {}, {:onchange => "$('#new_user_session').submit();"} %>
+          <input type="hidden" name="user_session[password]" value="password1"/>
+        </li>
+        
+        <li>|</li>
+      
+        <li class="logout">
+          <a href="/logout">
+            logout
+          </a>
+        </li>
+      </ul>
+    <%- end %>
     
     <%- @entity = nil unless params[:id] || params[:entity_id] || params[@entity_key] %>
     <div style="background-color:#888888; padding:2px;">
@@ -64,7 +75,7 @@
         
         <%- if allowed_to?(:admin, :tabs) %>
           <li <%= "class='active'" if @active_tab == 'admin' %> >
-            <a href="<%= admins_path %>">Admin</a>
+            <a href="<%= admin_users_path(Admin.first) %>">Admin</a>
           </li>
         <%- end %>
         

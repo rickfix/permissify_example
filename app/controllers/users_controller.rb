@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_filter :require_user
   before_filter :set_nav
+  before_filter :derive_entity_type_values
   before_filter :find_current_entity
   before_filter :set_domain_roles
   before_filter :new_user, :only => [:create, :new]
@@ -10,7 +11,6 @@ class UsersController < ApplicationController
   helper_method :domain_users_path
   
   def index
-    # @users = @domain_roles.collect(&:users).flatten.uniq
     @users = @current_entity.users
   end
 
@@ -39,33 +39,19 @@ class UsersController < ApplicationController
 
   def set_nav # a whole lot of name coupling...
     @entity_type = self.class::ENTITY_TYPE
-    @entity_id = params[:id]
     @entity_category_path = "#{@entity_type.downcase}_users_path"
-    @is_entity_path = false
-    
-    @active_tab = @entity_type == 'Admin' ? 'admin' : "#{@entity_type.downcase.pluralize}"
-    @active_section = @entity_type == AdminUsersController::ENTITY_TYPE ? 'Admin' : "#{@entity_type.titleize.singularize} Admin"
-    @active_nav = "#{@entity_type.titleize.singularize} Users"
     @active_nav_text = 'Users'
-    
-    @entity_class = eval(@entity_type.classify)
-    @entity_association = @entity_type.pluralize.downcase
-    @entity_ability_category = @entity_type.pluralize.downcase.to_sym
-    @entity_base_route = send("#{@entity_type.pluralize.downcase}_url")
-    @entity_name = @entity_type.singularize.downcase
-
-    @domain_type = @entity_type
     @domain_category = "#{@entity_type.downcase.to_sym}_users".to_sym
-    @entity_key = "#{@entity_type.downcase}_id".to_sym
-    @entity_association = @entity_type.downcase.pluralize.to_sym
+    return unless @entity_type == AdminUsersController::ENTITY_TYPE
+    @active_tab = 'admin'
+    @active_section = 'Admin'
   end
   
   def set_domain_roles
-    @domain_roles = Role.find_all_by_domain_type( @domain_type )
+    @domain_roles = Role.find_all_by_domain_type( @entity_type )
   end
   
   def new_user
-    # @user = User.new
     @user = @current_entity.users.new
     @permissions_action = :create
   end

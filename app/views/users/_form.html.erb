@@ -17,7 +17,7 @@
       <div class="inputCont">
         <%= u.label :role_ids, "Roles" %>
     		<%- if domain_roles_that_current_user_can_manage.empty? %>
-    			<div class="fieldErrorMsg">There are no '<%= @domain_type %>' roles, so this user will have no permissions.</div>
+    			<div class="fieldErrorMsg">There are no '<%= @entity_type %>' roles, so this user will have no permissions.</div>
     		<%- else %>
           <%= u.collection_select(:role_ids, domain_roles_that_current_user_can_manage, :id, :name, {}, :size => [domain_roles_that_current_user_can_manage.size+2, 3].min, :multiple => 'multiple') %>
     		<%- end %>
