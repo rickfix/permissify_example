@@ -10,6 +10,9 @@ class Merchant < ActiveRecord::Base
 
   def merchant; self; end
   def merchants; [self]; end
+  def dealers; [self.dealer]; end
+  def corporations; [self.corporation]; end
+  def brands; [self.brand]; end
   def parent; self.brand; end
   def children; nil; end
   def ancestors; [:dealer, :corporation, :brand]; end

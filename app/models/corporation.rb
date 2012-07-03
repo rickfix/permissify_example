@@ -17,5 +17,6 @@ class Corporation < ActiveRecord::Base
   def parent; self.dealer; end
   def children; self.brands; end
   def ancestors; [:dealer]; end
+  def dealers; [self.dealer]; end
   
 end

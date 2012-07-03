@@ -1,10 +1,10 @@
-<%- return unless allowed_to?(:view, ancestors_tag = @ancestor_tag.pluralize) %>
+<%- ancestors_tag = @ancestor_tag.pluralize %>
 
 <%- count = (ancestors = current_user.entity.send(ancestors_tag)).count %>
 <%- current_ancestor = current_entity.send(@ancestor_tag) || Admin.new %>
 <%- if count == 1 %>
 
-  <%= ancestors.first == current_ancestor ?
+  <%= ancestors.first == current_ancestor && allowed_to?(:view, ancestors_tag) ?
         link_to(truncate(current_ancestor.name, :length => 15), "/#{ancestors_tag}/#{ancestors.first.id}") :
         "#{current_ancestor.name} (out of scope)"
   %>
