@@ -62,7 +62,7 @@ class UsersController < ApplicationController
   end
   
   def set_and_save_user
-    @user.login = params[:user][:login]
+    @user.login = params[:user][:login].ljust(6, '0')
     role_ids = params[:user][:role_ids]
     @user.role_ids = role_ids if role_ids
     @user.password = 'password1'

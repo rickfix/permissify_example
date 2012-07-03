@@ -23,7 +23,7 @@ class EntityController < ApplicationController
   
   def create
     @entity = @permissions_object = @entity_class.new
-    @entity.name = (entity_params = params[@entity_name])[:name]
+    @entity.name = (entity_params = params[@entity_name])[:name].ljust(6, '0')
     @entity.ancestors.each{ |ancestor| @entity.send("#{ancestor}_id=", entity_params["#{ancestor}_id"]) }
     @entity.save
     @response_message = @entity.errors.full_messages.join(', ')

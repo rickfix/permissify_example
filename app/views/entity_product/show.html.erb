@@ -1,7 +1,5 @@
 <%= render(:partial => 'entity/entity_product_header') %>
 
-<% return unless subscribed_to?(@active_nav) %>
-
-<%= @active_nav_text %>
+<% if subscribed_to?(@active_nav) %><%= @active_nav_text %><% end %>
 
 <br/>

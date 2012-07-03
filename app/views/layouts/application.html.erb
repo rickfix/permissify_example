@@ -22,14 +22,16 @@
 
         <li>|</li>
       
-        <li>
-          <%- other_users = User.all.select{|u| current_user != u}.sort{|u1,u2| u1.login <=> u2.login}.collect(&:login) %>
-          <%= f.select :login, other_users.unshift(['change to user','']), {}, {:onchange => "$('#new_user_session').submit();"} %>
-          <input type="hidden" name="user_session[password]" value="password1"/>
-        </li>
+        <%- other_users = User.all.select{|u| current_user != u}.sort{|u1,u2| u1.login <=> u2.login}.collect(&:login) %>
+        <%- if other_users.size > 0 %>
+          <li>
+            <%= f.select :login, other_users.unshift(['change to user','']), {}, {:onchange => "$('#new_user_session').submit();"} %>
+            <input type="hidden" name="user_session[password]" value="password1"/>
+          </li>
         
-        <li>|</li>
-      
+          <li>|</li>
+        <%- end %>
+        
         <li class="logout">
           <a href="/logout">
             logout
