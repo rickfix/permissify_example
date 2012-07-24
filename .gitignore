@@ -20,4 +20,5 @@ app/views/products
 app/views/roles
 db/migrate/*_create_roles_tables.rb
 db/migrate/*_create_products_tables.rb
+db/schema.rb
 

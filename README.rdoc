@@ -2,4 +2,6 @@
 
 A rails 3 application which demonstrates different aspects of the permissify gem.
 
+See {Usage}[https://github.com/rickfix/permissify/wiki/Usage]
+
 
