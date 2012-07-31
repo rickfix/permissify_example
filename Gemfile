@@ -15,6 +15,10 @@ end
 gem 'jquery-rails'
 
 gem 'authlogic', '>= 3.1.0'
-gem 'permissify', :path => "~/Sites/permissify" #, '~> 0.1'
+# gem 'permissify', :path => "~/Sites/permissify" #, '~> 0.1'
+gem 'permissify', '~> 0.1.1'
+
+# gem 'curb', '~> 0.8.1'
+# gem 'curbala', :path => "~/Sites/curbala" #, '~> 0.0.1'
 
 gem "rspec-rails", "~> 2.0", :group => [:test, :development]
