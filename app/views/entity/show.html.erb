@@ -5,8 +5,8 @@
 <br/>
 <br/>
 
-<%- (hierarchy_tags = %w(dealer corporation brand)).each do |@ancestor_tag| %>
-
+<%- (hierarchy_tags = %w(dealer corporation brand)).each do |ancestor_tag| %>
+  <%- @ancestor_tag = ancestor_tag %>
   <%- break if current_entity.class.name.downcase == @ancestor_tag %>
   <%= render(:partial => 'entity/ancestor') %>
 
